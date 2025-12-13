@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "./const";
+
 import type { FETCH_STATE } from "../../const/Loaders";
 
 const authSlice = createSlice({
@@ -11,9 +12,18 @@ const authSlice = createSlice({
       { payload }: PayloadAction<FETCH_STATE>
     ) => {
       nextState.userLoginState = payload;
+    },
+
+    updateAccessToken: (nextState, { payload }: PayloadAction<string>) => {
+      nextState.accessToken = payload;
+    },
+
+    updateUserData: (nextState, { payload }: PayloadAction<IUserData>) => {
+      nextState.userData = payload;
     }
   }
 });
 
-export const { updateUserLoginState } = authSlice.actions;
+export const { updateUserLoginState, updateAccessToken, updateUserData } =
+  authSlice.actions;
 export default authSlice.reducer;

@@ -3,5 +3,7 @@ import type { UserInitialState } from "./types";
 
 export const initialState: UserInitialState = {
   isUserAuthenticathed: false,
-  userLoginState: FETCH_STATE.IDLE
+  userLoginState: FETCH_STATE.IDLE,
+  accessToken: null,
+  userData: null
 };

@@ -1,20 +1,26 @@
 import { FETCH_STATE } from "../const/Loaders";
-import { updateUserLoginState } from "../redux/authSlice";
+import {
+  updateAccessToken,
+  updateUserData,
+  updateUserLoginState
+} from "../redux/authSlice";
 import { api } from "./api";
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.query<void, IUserLogin>({
+    login: builder.query<IUserResponse, IUserLogin>({
       query: ({ username, password }) => ({
         url: "/login",
         method: "POST",
+
         body: JSON.stringify({ username, password })
       }),
-      onQueryStarted: (_, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
         dispatch(updateUserLoginState(FETCH_STATE.LOADING));
         try {
-          const data = queryFulfilled;
-          console.log(data);
+          const { data } = await queryFulfilled;
+          dispatch(updateAccessToken(data.accessToken));
+          dispatch(updateUserData(data.userData));
         } catch {
           dispatch(updateUserLoginState(FETCH_STATE.ERROR));
           return;
