@@ -1,40 +1,35 @@
 import { lazy } from "react";
 import PrivateRoutes from "./PrivateRoutes";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+import IndexRedirect from "./IndexRedirect";
+import ROUTES_PATHS from "./paths";
 
-const ROUTES_PATHS = {
-  ROOT: "/",
-  REGISTER: "/register",
-  RESET_PASSWORD: "/reset-password",
-  FORGOT_PASSWORD: "/forgot-password",
-  DASHBOARD: "/dashboard",
-  USER_PROFILE: "/user-profile",
-  UPLOAD_PHOTOS: "/upload-photos"
-};
 const Login = lazy(() => import("../pages/Login"));
+const DashBoard = lazy(() => import("../pages/DashBoard"));
 
-// const publicRoutes: RoutesTypes[] = [
-//   {
-//     path: ROUTES_PATHS.ROOT,
-//     Component: Login,
-//     name: "Profile"
-//   }
-// ];
-
-// const appRoutes: RoutesTypes[] = [...publicRoutes];
-
-// export default appRoutes;
-
-const appRoutes: RoutesTypes[] = [
+const routes = [
   {
     path: ROUTES_PATHS.ROOT,
-    element: <PrivateRoutes />,
+    element: <Outlet />,
     children: [
+      { index: true, element: <IndexRedirect /> },
       {
-        path: ROUTES_PATHS.ROOT,
+        path: ROUTES_PATHS.LOGIN,
         element: <Login />
+      },
+      {
+        element: <PrivateRoutes />,
+        children: [
+          {
+            path: ROUTES_PATHS.DASHBOARD,
+            element: <DashBoard />
+          }
+        ]
       }
     ]
   }
 ];
+
+const appRoutes = createBrowserRouter(routes);
 
 export default appRoutes;

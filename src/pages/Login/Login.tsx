@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
 import {
@@ -7,7 +7,6 @@ import {
   CircularProgress,
   Container,
   Paper,
-  Stack,
   Typography
 } from "@mui/material";
 // import { useFormik } from "formik";
@@ -23,17 +22,19 @@ import { useFormik } from "formik";
 // import { userFetchState } from "../../redux/selectors/UserSelectors";
 import { useLazyLoginQuery } from "../../api/userApi";
 import { useAppSelector } from "../../redux/";
-import { getUserLoginState } from "../../redux/authSlice/selectors";
+import {
+  getAccessToken,
+  getUserLoginState
+} from "../../redux/authSlice/selectors";
 import { LOADING } from "../../const/Loaders";
+import ROUTES_PATHS from "../../routes/paths";
 
 const Login = () => {
-  console.log("login");
-  // const dispatch = useAppDispatch();
+  const accessToken = useAppSelector(getAccessToken);
   const userState = useAppSelector(getUserLoginState);
   const isUserLoading = userState === LOADING;
   const [onUserLogin] = useLazyLoginQuery();
 
-  // const isError = userState === ERROR;
   const formik = useFormik<IUserLogin>({
     initialValues: {
       username: "sergiu",
@@ -44,8 +45,9 @@ const Login = () => {
       password: Yup.string().required("Password is required")
     }),
     onSubmit: (userData: IUserLogin) => onUserLogin(userData)
-    // onSubmit: (userData: IUserLogin) => console.log(userData)
   });
+
+  if (accessToken) return <Navigate to={ROUTES_PATHS.DASHBOARD} replace />;
 
   return (
     <Container
