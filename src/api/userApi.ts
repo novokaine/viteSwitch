@@ -8,11 +8,10 @@ import { api } from "./api";
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.query<IUserResponse, IUserLogin>({
+    login: builder.mutation<IUserResponse, IUserLogin>({
       query: ({ username, password }) => ({
         url: "/login",
         method: "POST",
-
         body: JSON.stringify({ username, password })
       }),
       onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
@@ -28,8 +27,28 @@ export const userApi = api.injectEndpoints({
           dispatch(updateUserLoginState(FETCH_STATE.IDLE));
         }
       }
+    }),
+    getUserProfile: builder.query<IUserResponse, void>({
+      query: () => ({
+        url: "/check-auth",
+        method: "GET"
+      }),
+      onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
+        dispatch(updateUserLoginState(FETCH_STATE.LOADING));
+
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateAccessToken(data.accessToken));
+          dispatch(updateUserData(data.userData));
+          dispatch(updateUserLoginState(FETCH_STATE.IDLE));
+        } catch (err) {
+          console.log(err);
+          dispatch(updateUserLoginState(FETCH_STATE.ERROR));
+          dispatch(updateAccessToken(null));
+        }
+      }
     })
   })
 });
 
-export const { useLazyLoginQuery } = userApi;
+export const { useLoginMutation, useGetUserProfileQuery } = userApi;

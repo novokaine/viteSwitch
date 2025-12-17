@@ -9,18 +9,9 @@ import {
   Paper,
   Typography
 } from "@mui/material";
-// import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-// import { AppDispatch } from "../../redux";
-// import { ERROR, IDLE, LOADING } from "../../const/Common";
-// import DialogModal from "../../components/DialogModal";
-// import { updateUserFetchState } from "../../redux/reducers/UserReducer";
-// import { UserDataTypes } from "../../redux/Types/UserDataTypes";
-// import { loginAction } from "../../redux/actions/UserActions";
-// import { FORGOT_PASSWORD, REGISTER } from "..";
-// import { userFetchState } from "../../redux/selectors/UserSelectors";
-import { useLazyLoginQuery } from "../../api/userApi";
+import { useLoginMutation } from "../../api/userApi";
 import { useAppSelector } from "../../redux/";
 import {
   getAccessToken,
@@ -33,7 +24,7 @@ const Login = () => {
   const accessToken = useAppSelector(getAccessToken);
   const userState = useAppSelector(getUserLoginState);
   const isUserLoading = userState === LOADING;
-  const [onUserLogin] = useLazyLoginQuery();
+  const [onUserLogin] = useLoginMutation();
 
   const formik = useFormik<IUserLogin>({
     initialValues: {
@@ -101,7 +92,7 @@ const Login = () => {
               fullWidth
               variant="contained"
               type="submit"
-              disabled={userState === LOADING}
+              disabled={isUserLoading}
               className="submit"
             >
               <span>Login</span>

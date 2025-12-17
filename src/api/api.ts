@@ -5,14 +5,15 @@ export const api = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000/api",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).authSlice?.accessToken;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
+
+      headers.set("Content-Type", "application/json");
+
       return headers;
     }
   }),

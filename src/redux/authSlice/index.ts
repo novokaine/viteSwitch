@@ -14,7 +14,10 @@ const authSlice = createSlice({
       nextState.userLoginState = payload;
     },
 
-    updateAccessToken: (nextState, { payload }: PayloadAction<string>) => {
+    updateAccessToken: (
+      nextState,
+      { payload }: PayloadAction<string | null>
+    ) => {
       nextState.accessToken = payload;
     },
 
