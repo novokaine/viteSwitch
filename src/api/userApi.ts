@@ -1,4 +1,4 @@
-import { FETCH_STATE } from "../const/Loaders";
+import { IDLE, LOADING, ERROR, UNAUTHENTICATED } from "../const/Loaders";
 import {
   updateAccessToken,
   updateUserData,
@@ -15,16 +15,13 @@ export const userApi = api.injectEndpoints({
         body: JSON.stringify({ username, password })
       }),
       onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
-        dispatch(updateUserLoginState(FETCH_STATE.LOADING));
+        dispatch(updateUserLoginState(LOADING));
         try {
           const { data } = await queryFulfilled;
           dispatch(updateAccessToken(data.accessToken));
           dispatch(updateUserData(data.userData));
         } catch {
-          dispatch(updateUserLoginState(FETCH_STATE.ERROR));
-          return;
-        } finally {
-          dispatch(updateUserLoginState(FETCH_STATE.IDLE));
+          dispatch(updateUserLoginState(ERROR));
         }
       }
     }),
@@ -34,16 +31,15 @@ export const userApi = api.injectEndpoints({
         method: "GET"
       }),
       onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
-        dispatch(updateUserLoginState(FETCH_STATE.LOADING));
+        dispatch(updateUserLoginState(LOADING));
 
         try {
           const { data } = await queryFulfilled;
           dispatch(updateAccessToken(data.accessToken));
           dispatch(updateUserData(data.userData));
-          dispatch(updateUserLoginState(FETCH_STATE.IDLE));
-        } catch (err) {
-          console.log(err);
-          dispatch(updateUserLoginState(FETCH_STATE.ERROR));
+          dispatch(updateUserLoginState(IDLE));
+        } catch {
+          dispatch(updateUserLoginState(UNAUTHENTICATED));
           dispatch(updateAccessToken(null));
         }
       }

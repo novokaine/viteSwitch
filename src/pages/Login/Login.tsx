@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
@@ -17,13 +18,17 @@ import {
   getAccessToken,
   getUserLoginState
 } from "../../redux/authSlice/selectors";
-import { LOADING } from "../../const/Loaders";
+import { ERROR, IDLE, LOADING } from "../../const/Loaders";
 import ROUTES_PATHS from "../../routes/paths";
+import DialogModal from "../../components/DialogModal";
+import { updateUserLoginState } from "../../redux/authSlice";
 
 const Login = () => {
   const accessToken = useAppSelector(getAccessToken);
   const userState = useAppSelector(getUserLoginState);
   const isUserLoading = userState === LOADING;
+
+  const dispatch = useDispatch();
   const [onUserLogin] = useLoginMutation();
 
   const formik = useFormik<IUserLogin>({
@@ -52,12 +57,12 @@ const Login = () => {
         justifyContent: "center"
       }}
     >
-      {/* <DialogModal
-        isOpen={isError}
+      <DialogModal
+        isOpen={userState === ERROR}
         dialogTitle="Error"
         dialogText="Authentication error occured"
-        handleClose={() => dispatch(updateUserFetchState(IDLE))}
-      /> */}
+        handleClose={() => dispatch(updateUserLoginState(IDLE))}
+      />
       <Paper elevation={3} sx={{ padding: 3, width: "100%" }}>
         <Typography variant="h5" align="center" gutterBottom>
           Login
