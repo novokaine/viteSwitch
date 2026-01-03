@@ -4,7 +4,7 @@ declare interface IUserLogin {
 }
 
 declare interface IUserData {
-  userName: string;
+  username: string;
   isAdmin: boolean;
   email: string;
 }
