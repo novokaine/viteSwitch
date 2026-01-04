@@ -8,7 +8,7 @@ import {
 import IndexRedirect from "./IndexRedirect";
 import ROUTES_PATHS from "./paths";
 
-type CustomRouteObject = Omit<RouteObject, "children"> & {
+type CustomRouteObject = RouteObject & {
   name?: string;
   isAdmin?: boolean;
   children?: CustomRouteObject[];
