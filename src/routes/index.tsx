@@ -21,6 +21,7 @@ import AuthGuard from "./AuthGuard";
 type CustomRouteObject = RouteObject & {
   name?: string;
   children?: CustomRouteObject[];
+  isAdmin?: boolean;
 };
 
 export const routes: CustomRouteObject[] = [
@@ -62,21 +63,24 @@ export const routes: CustomRouteObject[] = [
           {
             path: "admin",
             element: <AuthGuard type="admin" />,
-            requireAdmin: true,
+            isAdmin: true,
             children: [
               {
                 path: ADMIN_ROUTES.ADD_USER,
                 name: "Add user",
+                isAdmin: true,
                 element: <AddUser />
               },
               {
                 path: ADMIN_ROUTES.UPLOAD_PHOTOS,
                 name: "Upload Photos",
+                isAdmin: true,
                 element: <UploadPhotos />
               },
               {
                 path: ADMIN_ROUTES.USERS,
                 name: "Users",
+                isAdmin: true,
                 element: <Users />
               }
             ]
@@ -95,8 +99,8 @@ const processNavItems = (
     if (route.name && route.path) {
       items.push({
         path: route.path,
-        name: route.name
-        // isAdmin: route.isAdmin
+        name: route.name,
+        isAdmin: route?.isAdmin
       });
     }
     if (route.children) processNavItems(route.children, items);

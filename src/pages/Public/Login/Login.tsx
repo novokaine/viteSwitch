@@ -25,6 +25,10 @@ const Login = () => {
   const [onUserLogin] = useLoginMutation();
 
   const formik = useFormik<IUserLogin>({
+    // initialValues: {
+    //   username: "testuser",
+    //   password: "randomPassowrd"
+    // },
     initialValues: {
       username: "sergiu",
       password: "someRandomPassword"

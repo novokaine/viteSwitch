@@ -2,6 +2,8 @@ import { Button, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import { navItems } from "../../../routes";
 import type { FC } from "react";
+import { useAppSelector } from "../../../redux";
+import { getCurrentUserData } from "../../../redux/authSlice/selectors";
 
 const drawerWidth = 240;
 
@@ -9,6 +11,12 @@ const getLinkClassName = ({ path }: { path: string }) =>
   location.pathname.startsWith(path) ? "active" : "";
 
 const NavMenu: FC<{ open: boolean }> = ({ open }) => {
+  const userData = useAppSelector(getCurrentUserData);
+
+  const userLinks = userData?.isAdmin
+    ? navItems
+    : navItems.filter(({ isAdmin }) => !isAdmin);
+
   return (
     <Drawer
       sx={{
@@ -29,7 +37,7 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
       }}
     >
       <List className="user-menu">
-        {navItems.map(({ path, name }) => (
+        {userLinks.map(({ path, name }) => (
           <ListItem key={path} disablePadding>
             <Button className={getLinkClassName({ path })}>
               <Link to={path}>
