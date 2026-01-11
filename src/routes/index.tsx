@@ -1,12 +1,9 @@
-import PrivateRoutes from "./PrivateRoutes";
 import {
   createBrowserRouter,
   Outlet,
   type RouteObject
 } from "react-router-dom";
 import ROUTES_PATHS, { ADMIN_ROUTES } from "./paths";
-import AdminRoutes from "./AdminRoutes";
-import PublicRoutes from "./PublicRoutes";
 import {
   AddUser,
   DashBoard,
@@ -17,6 +14,9 @@ import {
   UserProfile,
   Users
 } from "./lazyImports";
+
+import LayoutWrapper from "../components/LayoutWrapper";
+import AuthGuard from "./AuthGuard";
 
 type CustomRouteObject = RouteObject & {
   name?: string;
@@ -30,7 +30,7 @@ export const routes: CustomRouteObject[] = [
     children: [
       // { index: true, element: <IndexRedirect /> },
       {
-        element: <PublicRoutes />,
+        element: <AuthGuard type="public" />,
         children: [
           {
             path: ROUTES_PATHS.LOGIN,
@@ -47,7 +47,7 @@ export const routes: CustomRouteObject[] = [
         ]
       },
       {
-        element: <PrivateRoutes />,
+        element: <AuthGuard type="private" Wrapper={LayoutWrapper} />,
         children: [
           {
             path: ROUTES_PATHS.DASHBOARD,
@@ -61,18 +61,22 @@ export const routes: CustomRouteObject[] = [
           },
           {
             path: "admin",
-            element: <AdminRoutes />,
+            element: <AuthGuard type="admin" />,
+            requireAdmin: true,
             children: [
               {
                 path: ADMIN_ROUTES.ADD_USER,
+                name: "Add user",
                 element: <AddUser />
               },
               {
                 path: ADMIN_ROUTES.UPLOAD_PHOTOS,
+                name: "Upload Photos",
                 element: <UploadPhotos />
               },
               {
                 path: ADMIN_ROUTES.USERS,
+                name: "Users",
                 element: <Users />
               }
             ]
@@ -107,6 +111,6 @@ const getNavLinks = (routes: CustomRouteObject[]) => {
 
 export const { navItems } = getNavLinks(routes);
 
-const appRoutes = createBrowserRouter(routes as RouteObject[]);
+const appRoutes = createBrowserRouter(routes);
 
 export default appRoutes;
