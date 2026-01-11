@@ -20,6 +20,7 @@ export const userApi = api.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(updateAccessToken(data.accessToken));
           dispatch(updateUserData(data.userData));
+          dispatch(updateUserLoginState(IDLE));
         } catch {
           dispatch(updateUserLoginState(ERROR));
         }

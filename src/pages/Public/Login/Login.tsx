@@ -1,6 +1,4 @@
 import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
-
 import TextField from "@mui/material/TextField";
 import {
   Box,
@@ -12,19 +10,14 @@ import {
 } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useLoginMutation } from "../../api/userApi";
-import { useAppSelector } from "../../redux/";
-import {
-  getAccessToken,
-  getUserLoginState
-} from "../../redux/authSlice/selectors";
-import { ERROR, IDLE, LOADING } from "../../const/Loaders";
-import ROUTES_PATHS from "../../routes/paths";
-import DialogModal from "../../components/DialogModal";
-import { updateUserLoginState } from "../../redux/authSlice";
+import { useLoginMutation } from "../../../api/userApi";
+import { useAppSelector } from "../../../redux/";
+import { getUserLoginState } from "../../../redux/authSlice/selectors";
+import { ERROR, IDLE, LOADING } from "../../../const/Loaders";
+import DialogModal from "../../../components/DialogModal";
+import { updateUserLoginState } from "../../../redux/authSlice";
 
 const Login = () => {
-  const accessToken = useAppSelector(getAccessToken);
   const userState = useAppSelector(getUserLoginState);
   const isUserLoading = userState === LOADING;
 
@@ -42,8 +35,6 @@ const Login = () => {
     }),
     onSubmit: (userData: IUserLogin) => onUserLogin(userData)
   });
-
-  if (accessToken) return <Navigate to={ROUTES_PATHS.DASHBOARD} replace />;
 
   return (
     <Container

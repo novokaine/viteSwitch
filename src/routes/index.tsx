@@ -1,31 +1,50 @@
-import { lazy } from "react";
 import PrivateRoutes from "./PrivateRoutes";
 import {
   createBrowserRouter,
   Outlet,
   type RouteObject
 } from "react-router-dom";
-import IndexRedirect from "./IndexRedirect";
-import ROUTES_PATHS from "./paths";
+import ROUTES_PATHS, { ADMIN_ROUTES } from "./paths";
+import AdminRoutes from "./AdminRoutes";
+import PublicRoutes from "./PublicRoutes";
+import {
+  AddUser,
+  DashBoard,
+  Login,
+  Register,
+  ResetPassword,
+  UploadPhotos,
+  UserProfile,
+  Users
+} from "./lazyImports";
 
 type CustomRouteObject = RouteObject & {
   name?: string;
-  isAdmin?: boolean;
   children?: CustomRouteObject[];
 };
-
-const Login = lazy(() => import("../pages/Login"));
-const DashBoard = lazy(() => import("../pages/DashBoard"));
 
 export const routes: CustomRouteObject[] = [
   {
     path: ROUTES_PATHS.ROOT,
     element: <Outlet />,
     children: [
-      { index: true, element: <IndexRedirect /> },
+      // { index: true, element: <IndexRedirect /> },
       {
-        path: ROUTES_PATHS.LOGIN,
-        element: <Login />
+        element: <PublicRoutes />,
+        children: [
+          {
+            path: ROUTES_PATHS.LOGIN,
+            element: <Login />
+          },
+          {
+            path: ROUTES_PATHS.REGISTER,
+            element: <Register />
+          },
+          {
+            path: ROUTES_PATHS.RESET_PASSWORD,
+            element: <ResetPassword />
+          }
+        ]
       },
       {
         element: <PrivateRoutes />,
@@ -33,8 +52,30 @@ export const routes: CustomRouteObject[] = [
           {
             path: ROUTES_PATHS.DASHBOARD,
             name: "Dashboard",
-            isAdmin: false,
             element: <DashBoard />
+          },
+          {
+            path: ROUTES_PATHS.USER_PROFILE,
+            name: "Profile",
+            element: <UserProfile />
+          },
+          {
+            path: "admin",
+            element: <AdminRoutes />,
+            children: [
+              {
+                path: ADMIN_ROUTES.ADD_USER,
+                element: <AddUser />
+              },
+              {
+                path: ADMIN_ROUTES.UPLOAD_PHOTOS,
+                element: <UploadPhotos />
+              },
+              {
+                path: ADMIN_ROUTES.USERS,
+                element: <Users />
+              }
+            ]
           }
         ]
       }
@@ -50,8 +91,8 @@ const processNavItems = (
     if (route.name && route.path) {
       items.push({
         path: route.path,
-        name: route.name,
-        isAdmin: route.isAdmin
+        name: route.name
+        // isAdmin: route.isAdmin
       });
     }
     if (route.children) processNavItems(route.children, items);

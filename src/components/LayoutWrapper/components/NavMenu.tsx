@@ -29,6 +29,13 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
       }}
     >
       <List className="user-menu">
+        <ListItem>
+          <Button
+            className={getLinkClassName({ path: "/admin/upload-photos" })}
+          >
+            <Link to="/admin/upload-photos">Upload Photos</Link>
+          </Button>
+        </ListItem>
         {navItems.map(({ path, name }) => (
           <ListItem key={path} disablePadding>
             <Button className={getLinkClassName({ path })}>
