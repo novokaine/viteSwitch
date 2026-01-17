@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  Outlet,
-  type RouteObject
-} from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import ROUTES_PATHS, { ADMIN_ROUTES } from "./paths";
 import {
   AddUser,
@@ -17,21 +13,17 @@ import {
 
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthGuard from "./AuthGuard";
+import { ROOTE_TYPE } from "./const";
 
-type CustomRouteObject = RouteObject & {
-  name?: string;
-  children?: CustomRouteObject[];
-  isAdmin?: boolean;
-};
+const { PUBLIC, PRIVATE, ADMIN } = ROOTE_TYPE;
 
 export const routes: CustomRouteObject[] = [
   {
     path: ROUTES_PATHS.ROOT,
     element: <Outlet />,
     children: [
-      // { index: true, element: <IndexRedirect /> },
       {
-        element: <AuthGuard type="public" />,
+        element: <AuthGuard type={PUBLIC} />,
         children: [
           {
             path: ROUTES_PATHS.LOGIN,
@@ -48,7 +40,8 @@ export const routes: CustomRouteObject[] = [
         ]
       },
       {
-        element: <AuthGuard type="private" Wrapper={LayoutWrapper} />,
+        path: ROUTES_PATHS.ROOT,
+        element: <AuthGuard type={PRIVATE} Wrapper={LayoutWrapper} />,
         children: [
           {
             path: ROUTES_PATHS.DASHBOARD,
@@ -61,8 +54,8 @@ export const routes: CustomRouteObject[] = [
             element: <UserProfile />
           },
           {
-            path: "admin",
-            element: <AuthGuard type="admin" />,
+            path: ADMIN,
+            element: <AuthGuard type={ADMIN} />,
             isAdmin: true,
             children: [
               {

@@ -6,3 +6,9 @@ declare interface RoutesTypes {
     element: JSX.Element;
   }[];
 }
+
+declare type CustomRouteObject = RouteObject & {
+  name?: string;
+  children?: CustomRouteObject[];
+  isAdmin?: boolean;
+};

@@ -9,11 +9,12 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { LOADING } from "../const/Loaders";
 import ROUTES_PATHS from "./paths";
+import type { ROOTE_TYPE } from "./const";
 
-const { LOGIN, DASHBOARD } = ROUTES_PATHS;
+const { LOGIN, DASHBOARD, ROOT } = ROUTES_PATHS;
 
 export type AuthGuardProps = {
-  type: "private" | "public" | "admin";
+  type: ROOTE_TYPE;
   Wrapper?: ComponentType<{ children: ReactNode }>;
   loadingComponent?: ReactNode;
   redirectTo?: string;
@@ -38,6 +39,10 @@ const AuthGuard: FC<AuthGuardProps> = ({
 
   if (loginState === LOADING) {
     return <>{loadingComponent || <Loader />}</>;
+  }
+
+  if (location.pathname === ROOT) {
+    return <Navigate to={accessToken ? DASHBOARD : LOGIN} />;
   }
 
   let hasAccess = false;
