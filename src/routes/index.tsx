@@ -14,6 +14,7 @@ import {
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthGuard from "./AuthGuard";
 import { ROOTE_TYPE } from "./const";
+import { PaletteExplorer } from "../pages/PaletteExplorer";
 
 const { PUBLIC, PRIVATE, ADMIN } = ROOTE_TYPE;
 
@@ -43,6 +44,11 @@ export const routes: CustomRouteObject[] = [
         path: ROUTES_PATHS.ROOT,
         element: <AuthGuard type={PRIVATE} Wrapper={LayoutWrapper} />,
         children: [
+          {
+            path: ROUTES_PATHS.PALETTE_EXPLORER,
+            name: "Palette",
+            element: <PaletteExplorer />
+          },
           {
             path: ROUTES_PATHS.DASHBOARD,
             name: "Dashboard",

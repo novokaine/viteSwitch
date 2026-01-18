@@ -43,7 +43,11 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
             </Button>
           </li>
           <li>
-            <Button type="button" onClick={() => toggleTheme()}>
+            <Button
+              type="button"
+              onClick={() => toggleTheme()}
+              variant="contained"
+            >
               Switch theme mode
             </Button>
           </li>

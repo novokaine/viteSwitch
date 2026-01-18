@@ -18,7 +18,8 @@ const adminRoutes = {
 
 const ROUTES_PATHS = {
   ...externalRoutes,
-  ...internalRoutes
+  ...internalRoutes,
+  PALETTE_EXPLORER: "/palette-explorer"
 };
 
 export const ADMIN_ROUTES = { ...adminRoutes };

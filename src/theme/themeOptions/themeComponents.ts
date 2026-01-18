@@ -4,8 +4,15 @@ import type { Theme } from "@mui/material/styles";
 export const themeComponents: Components<Theme> = {
   MuiButton: {
     styleOverrides: {
-      root: ({ theme }) => ({
-        background: theme.palette.primary.main
+      // root: ({ theme }) => ({
+      //   background: theme.palette.secondary.main
+      // })
+    }
+  },
+  MuiCssBaseline: {
+    styleOverrides: {
+      body: ({ theme }) => ({
+        backgroundColor: theme.palette.primary.main
       })
     }
   }

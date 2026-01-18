@@ -1,5 +1,10 @@
 import { useCallback, useMemo, useState, type FC, type ReactNode } from "react";
-import { createTheme, ThemeProvider, type Theme } from "@mui/material";
+import {
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+  type Theme
+} from "@mui/material";
 import { DARK, LIGHT, ThemeContext, type THEME_OPTIONS } from "./const";
 import { themeComponents } from "./themeOptions/themeComponents";
 import { darkPalette, lightPalette } from "./themeOptions/palette";
@@ -8,7 +13,7 @@ const ThemeProviderWrapper: FC<{ children: ReactNode }> = ({ children }) => {
   const [themeMode, setThemeMode] = useState<THEME_OPTIONS>(LIGHT);
 
   const selectedTheme: Theme = useMemo(() => {
-    const palette = themeMode === DARK ? lightPalette : darkPalette;
+    const palette = themeMode === DARK ? darkPalette : lightPalette;
 
     return createTheme({
       palette,
@@ -23,7 +28,10 @@ const ThemeProviderWrapper: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ toggleTheme }}>
-      <ThemeProvider theme={selectedTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={selectedTheme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </ThemeContext.Provider>
   );
 };
