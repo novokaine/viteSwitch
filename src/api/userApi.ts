@@ -1,5 +1,6 @@
 import { IDLE, LOADING, ERROR, UNAUTHENTICATED } from "../const/Loaders";
 import {
+  resetUserData,
   updateAccessToken,
   updateUserData,
   updateUserLoginState
@@ -44,8 +45,18 @@ export const userApi = api.injectEndpoints({
           dispatch(updateAccessToken(null));
         }
       }
+    }),
+    logout: builder.query<null, void>({
+      query: () => ({
+        url: "/logout",
+        method: "GET"
+      }),
+      onQueryStarted: (_, { dispatch }) => {
+        dispatch(resetUserData());
+      }
     })
   })
 });
 
-export const { useLoginMutation, useGetUserProfileQuery } = userApi;
+export const { useLoginMutation, useGetUserProfileQuery, useLazyLogoutQuery } =
+  userApi;

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { AppBar } from "@mui/material";
+import { AppBar, Box } from "@mui/material";
 
 export const StyledNavBar = styled(AppBar)({
   display: "flex",
@@ -8,3 +8,14 @@ export const StyledNavBar = styled(AppBar)({
   alignItems: "center",
   padding: "0 20px"
 });
+
+export const StyledAuthControls = styled(Box)(({ theme }) => ({
+  ul: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12
+  },
+  li: {
+    display: "inline-block"
+  }
+}));

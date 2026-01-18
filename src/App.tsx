@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
 import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
+import ThemeProviderContext from "./theme";
 
 const App = () => {
   const { isLoading, isFetching } = useGetUserProfileQuery();
@@ -19,7 +20,11 @@ const App = () => {
     );
   }
 
-  return <RouterProvider router={appRoutes} />;
+  return (
+    <ThemeProviderContext>
+      <RouterProvider router={appRoutes} />
+    </ThemeProviderContext>
+  );
 };
 
 export default App;
