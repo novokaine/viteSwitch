@@ -8,7 +8,6 @@ export enum THEME_OPTIONS {
 export const { LIGHT, DARK } = THEME_OPTIONS;
 
 const InitialThemeState = {
-  themeMode: LIGHT,
   toggleTheme: () => {}
 };
 

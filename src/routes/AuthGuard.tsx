@@ -5,11 +5,10 @@ import {
   getUserLoginState
 } from "../redux/authSlice/selectors";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Box, CircularProgress, ThemeProvider } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { LOADING } from "../const/Loaders";
 import ROUTES_PATHS from "./paths";
 import type { ROOTE_TYPE } from "./const";
-import { useGetTheme } from "../theme/themeOptions";
 import { useRedirectController } from "./hooks";
 
 const { LOGIN, DASHBOARD, ROOT } = ROUTES_PATHS;
@@ -36,7 +35,6 @@ const AuthGuard: FC<AuthGuardProps> = ({
   const accessToken = useAppSelector(getAccessToken);
   const loginState = useAppSelector(getUserLoginState);
   const location = useLocation();
-  const { theme } = useGetTheme();
 
   const { shouldRedirect, defaultRedirectPath } = useRedirectController({
     type
@@ -65,18 +63,12 @@ const AuthGuard: FC<AuthGuardProps> = ({
 
   if (Wrapper)
     return (
-      <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Outlet />
-        </Wrapper>
-      </ThemeProvider>
+      <Wrapper>
+        <Outlet />
+      </Wrapper>
     );
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Outlet />
-    </ThemeProvider>
-  );
+  return <Outlet />;
 };
 
 export default AuthGuard;
