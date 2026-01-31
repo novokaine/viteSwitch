@@ -1,7 +1,7 @@
 import { useAppSelector } from "../redux";
 import {
   getAccessToken,
-  getCurrentUserData
+  getCurrentUserData,
 } from "../redux/authSlice/selectors";
 import type { ROOTE_TYPE } from "./const";
 import ROUTES_PATHS from "./paths";

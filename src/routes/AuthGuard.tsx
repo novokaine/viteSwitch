@@ -2,7 +2,7 @@ import type { ComponentType, FC, ReactNode } from "react";
 import { useAppSelector } from "../redux";
 import {
   getAccessToken,
-  getUserLoginState
+  getUserLoginState,
 } from "../redux/authSlice/selectors";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
@@ -30,14 +30,14 @@ const AuthGuard: FC<AuthGuardProps> = ({
   type,
   Wrapper,
   loadingComponent,
-  redirectTo
+  redirectTo,
 }) => {
   const accessToken = useAppSelector(getAccessToken);
   const loginState = useAppSelector(getUserLoginState);
   const location = useLocation();
 
   const { shouldRedirect, defaultRedirectPath } = useRedirectController({
-    type
+    type,
   });
 
   if (loginState === LOADING) {
@@ -48,18 +48,18 @@ const AuthGuard: FC<AuthGuardProps> = ({
     return <Navigate to={accessToken ? DASHBOARD : LOGIN} />;
   }
 
-  if (shouldRedirect) {
-    const redirectPath = redirectTo || defaultRedirectPath;
-    return (
-      <Navigate
-        to={redirectPath}
-        replace
-        state={{
-          from: location
-        }}
-      />
-    );
-  }
+  // if (shouldRedirect) {
+  //   const redirectPath = redirectTo || defaultRedirectPath;
+  //   return (
+  //     <Navigate
+  //       to={redirectPath}
+  //       replace
+  //       state={{
+  //         from: location
+  //       }}
+  //     />
+  //   );
+  // }
 
   if (Wrapper)
     return (

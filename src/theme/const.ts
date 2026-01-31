@@ -1,14 +1,14 @@
 import { createContext } from "react";
-import type { IThemeContext } from "./types";
+import type { IThemeContext, THEME_OPTIONS } from "./types";
 
-export enum THEME_OPTIONS {
-  LIGHT = "light",
-  DARK = "dark"
-}
-export const { LIGHT, DARK } = THEME_OPTIONS;
+export const LIGHT: THEME_OPTIONS = "light";
+export const DARK: THEME_OPTIONS = "dark";
 
-const InitialThemeState = {
-  toggleTheme: () => {}
+const InitialThemeState: IThemeContext = {
+  toggleTheme: () => {},
+  themeMode: LIGHT,
+  setThemeMode: () => {},
+  isDark: false,
 };
 
 export const ThemeContext = createContext<IThemeContext>(InitialThemeState);

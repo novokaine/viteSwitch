@@ -5,13 +5,12 @@ import { useAppSelector } from "../../../redux";
 import { getCurrentUserData } from "../../../redux/authSlice/selectors";
 import { StyledAuthControls, StyledNavBar } from "./css/styles";
 import { useLazyLogoutQuery } from "../../../api/userApi";
-import { useThemeContext } from "../../../theme/hooks";
+import ThemeToggle from "../../ThemeToggle";
 
 const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
   const userData = useAppSelector(getCurrentUserData);
 
   const [logout] = useLazyLogoutQuery();
-  const { toggleTheme } = useThemeContext();
 
   return (
     <StyledNavBar position="fixed">
@@ -23,8 +22,8 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
           edge="start"
           sx={[
             {
-              mr: 2
-            }
+              mr: 2,
+            },
           ]}
         >
           {open ? <ChevronLeft /> : <ChevronRight />}
@@ -43,13 +42,7 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
             </Button>
           </li>
           <li>
-            <Button
-              type="button"
-              onClick={() => toggleTheme()}
-              variant="contained"
-            >
-              Switch theme mode
-            </Button>
+            <ThemeToggle variant="icon" size="medium" />
           </li>
         </ul>
       </StyledAuthControls>
