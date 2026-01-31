@@ -3,6 +3,7 @@ import appRoutes from "./routes";
 import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
 import ThemeProviderWrapper from "./theme";
+// import "./styles/main.scss";
 
 const App = () => {
   const { isLoading, isFetching } = useGetUserProfileQuery();
@@ -22,7 +23,9 @@ const App = () => {
 
   return (
     <ThemeProviderWrapper>
+      {/* <div className="light" data-mui-override="true"> */}
       <RouterProvider router={appRoutes} />
+      {/* </div> */}
     </ThemeProviderWrapper>
   );
 };

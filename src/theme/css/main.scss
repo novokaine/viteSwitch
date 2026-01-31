@@ -1,0 +1,21 @@
+// .ligth {
+//   --color-primary: #fff;
+// }
+
+// .dark {
+//   --color-primary: #000;
+// }
+
+// :root {
+//   --color-primary: red;
+// }
+
+// .MuiButtonBase-root {
+//   &.MuiButton-root {
+//     background: var(--color-primary);
+//     border: 1px solid red;
+//   }
+// }
+
+@use "./palette.scss";
+@use "./styling.scss";

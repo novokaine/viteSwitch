@@ -3,37 +3,36 @@ import { type PaletteOptions } from "@mui/material/styles";
 export const lightPalette: PaletteOptions = {
   mode: "light",
   primary: {
-    main: "#00d4e7"
+    main: "#00544a",
+    light: "#00796b",
+    dark: "#339388"
   },
   secondary: {
-    main: "#ff8178"
-  },
-
-  background: {
-    default: "#fff"
-  },
-
-  text: {
-    primary: "#00d4e7"
+    main: "#00b0ff",
+    light: "#339388",
+    dark: "#06ecd5"
   }
 };
 
 export const darkPalette: PaletteOptions = {
   mode: "dark",
   primary: {
-    main: "#000"
-    // light: "#e3f2fd",
-    // dark: "#42a5f5",
-    // contrastText: "#000"
+    main: "#b71c1c",
+    light: "#ff4569",
+    dark: "#620d16",
+    // dark: "#339388",
+    contrastText: "#ffffff"
   },
   secondary: {
-    main: "#f48fb1"
-    // light: "#fce4ec",
-    // dark: "#ec407a",
-    // contrastText: "#000"
+    main: "#b71c1c",
+    light: "#ff4569",
+    dark: "#620d16"
   },
-  background: {
-    default: "#121212",
-    paper: "#1e1e1e"
+
+  // text: {
+  //   secondary: "rgba(239,239,239,0.7)"
+  // },
+  info: {
+    main: "#dada16"
   }
 };

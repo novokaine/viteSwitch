@@ -11,9 +11,9 @@ export const themeComponents: Components<Theme> = {
   },
   MuiCssBaseline: {
     styleOverrides: {
-      body: ({ theme }) => ({
-        backgroundColor: theme.palette.primary.main
-      })
+      // body: ({ theme }) => ({
+      //   backgroundColor: theme.palette.primary.main
+      // })
     }
   }
 };
