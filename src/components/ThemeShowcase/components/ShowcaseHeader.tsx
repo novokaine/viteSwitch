@@ -1,12 +1,9 @@
 import { type FC } from "react";
 import { Typography, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { gradientBackground } from "../../../theme/utils";
+import { gradients } from "../../../theme/utils";
 import ThemeToggle from "../../ThemeToggle";
 
 export const ShowcaseHeader: FC = () => {
-  const theme = useTheme();
-
   return (
     <Box sx={{ mb: 4, textAlign: "center" }}>
       <Typography
@@ -14,7 +11,7 @@ export const ShowcaseHeader: FC = () => {
         component="h1"
         sx={{
           mb: 2,
-          background: gradientBackground.hero(theme),
+          background: (theme) => gradients.hero(theme),
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -31,7 +28,7 @@ export const ShowcaseHeader: FC = () => {
         Experience our professional theming system with modern design patterns,
         smooth animations, and consistent visual language.
       </Typography>
-      <ThemeToggle variant="switch" showLabel />
+      <ThemeToggle variant="picker" showLabel />
     </Box>
   );
 };

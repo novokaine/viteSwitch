@@ -1,6 +1,5 @@
-import { type PaletteOptions } from "@mui/material/styles";
+import type { PaletteOptions } from "@mui/material/styles";
 
-// Design tokens for consistent theming
 export const colors = {
   // Modern Blue Palette
   blue: {
@@ -193,3 +192,15 @@ export const darkPalette: PaletteOptions = {
     disabledBackground: "rgba(255, 255, 255, 0.12)",
   },
 };
+
+export const breakpoints = {
+  values: {
+    xs: 0,
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+  },
+};
+
+export const spacing = (factor: number) => `${0.25 * factor}rem`;

@@ -1,25 +1,28 @@
-import styled from "@emotion/styled";
-import { AppBar, Box } from "@mui/material";
+// import styled from "@emotion/styled";
 
-export const StyledNavBar = styled(AppBar)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: " space-between",
-  alignItems: "center",
-  padding: "0 20px",
+import { AppBar, Box, styled } from "@mui/material";
 
-  "& .MuiButton-root": {
-    background: theme.palette.secondary.light
-  }
-}));
+export const StyledNavBar = styled(AppBar)(({ theme }) => {
+  return {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: " space-between",
+    alignItems: "center",
+    padding: "0 20px",
 
-export const StyledAuthControls = styled(Box)(({ theme }) => ({
+    "& .MuiButton-root": {
+      background: theme.palette.secondary.light,
+    },
+  };
+});
+
+export const StyledAuthControls = styled(Box)(() => ({
   ul: {
     display: "flex",
     alignItems: "center",
-    gap: 12
+    gap: 12,
   },
   li: {
-    display: "inline-block"
-  }
+    display: "inline-block",
+  },
 }));

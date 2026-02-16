@@ -24,8 +24,8 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
         flexShrink: 0,
         "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: "border-box"
-        }
+          boxSizing: "border-box",
+        },
       }}
       variant="persistent"
       anchor="left"
@@ -33,10 +33,25 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
       open={open}
       classes={{
         root: "drawer-root",
-        paper: "drawer-paper"
+        paper: "drawer-paper",
       }}
     >
-      <List className="user-menu">
+      <List
+        sx={{
+          "& a, & button": {
+            textTransform: "none",
+            textDecoration: "none",
+            display: "block",
+            width: "100%",
+            boxSizing: "border-box",
+            color: "primary.main",
+            fontSize: "1rem",
+          },
+          "& button.active": {
+            bgcolor: "action.selected",
+          },
+        }}
+      >
         {userLinks.map(({ path, name }) => (
           <ListItem key={path} disablePadding>
             <Button className={getLinkClassName({ path })}>

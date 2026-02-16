@@ -2,7 +2,6 @@ import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
 import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
-import ThemeProviderWrapper from "./theme";
 // import "./styles/main.scss";
 
 const App = () => {
@@ -21,13 +20,7 @@ const App = () => {
     );
   }
 
-  return (
-    <ThemeProviderWrapper>
-      {/* <div className="light" data-mui-override="true"> */}
-      <RouterProvider router={appRoutes} />
-      {/* </div> */}
-    </ThemeProviderWrapper>
-  );
+  return <RouterProvider router={appRoutes} />;
 };
 
 export default App;

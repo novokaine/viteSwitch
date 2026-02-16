@@ -2,42 +2,42 @@ import { styled } from "@mui/material/styles";
 import { IconButton, Box } from "@mui/material";
 import { gradientBackground } from "../../theme/utils";
 
-export const StyledIconButton = styled(IconButton)<{ isDark: boolean }>(
-  ({ theme, isDark }) => ({
-    position: "relative",
-    overflow: "hidden",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    "&:hover": {
-      transform: "rotate(180deg)",
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      borderRadius: "50%",
-      background: isDark
-        ? `radial-gradient(circle, ${gradientBackground.sunset(theme)} 0%, transparent 70%)`
-        : `radial-gradient(circle, ${gradientBackground.primary(theme)} 0%, transparent 70%)`,
-      transform: isDark ? "scale(0)" : "scale(1)",
-      transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      zIndex: -1,
-    },
-  }),
-);
+export const StyledIconButton = styled(IconButton, {
+  shouldForwardProp: (prop) => prop !== "isDark",
+})<{ isDark: boolean }>(({ theme, isDark }) => ({
+  position: "relative",
+  overflow: "hidden",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  "&:hover": {
+    transform: "rotate(180deg)",
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "50%",
+    background: isDark
+      ? `radial-gradient(circle, ${gradientBackground.sunset(theme)} 0%, transparent 70%)`
+      : `radial-gradient(circle, ${gradientBackground.primary(theme)} 0%, transparent 70%)`,
+    transform: isDark ? "scale(1)" : "scale(0)",
+    transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    zIndex: -1,
+  },
+}));
 
-export const IconContainer = styled(Box)<{ isDark: boolean }>(
-  ({ theme, isDark }) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-    color: isDark ? theme.palette.warning.main : theme.palette.primary.main,
-  }),
-);
+export const IconContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isDark",
+})<{ isDark: boolean }>(({ theme, isDark }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+  color: isDark ? theme.palette.warning.main : theme.palette.text.primary,
+}));
 
 export const SwitchContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -53,30 +53,30 @@ export const SwitchContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const SwitchToggle = styled(Box)<{ isDark: boolean }>(
-  ({ theme, isDark }) => ({
-    width: 48,
-    height: 24,
-    borderRadius: "12px",
-    backgroundColor: isDark
-      ? theme.palette.primary.main
-      : theme.palette.grey[300],
-    position: "relative",
+export const SwitchToggle = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isDark",
+})<{ isDark: boolean }>(({ theme, isDark }) => ({
+  width: 48,
+  height: 24,
+  borderRadius: "12px",
+  backgroundColor: isDark
+    ? theme.palette.primary.main
+    : theme.palette.grey[300],
+  position: "relative",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: "2px",
+    left: isDark ? "26px" : "2px",
+    width: "20px",
+    height: "20px",
+    backgroundColor: theme.palette.background.default,
+    borderRadius: "50%",
     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: "2px",
-      left: isDark ? "26px" : "2px",
-      width: "20px",
-      height: "20px",
-      backgroundColor: theme.palette.background.default,
-      borderRadius: "50%",
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      boxShadow: theme.shadows[2],
-    },
-  }),
-);
+    boxShadow: theme.shadows[2],
+  },
+}));
 
 export const SwitchLabel = styled(Box)(({ theme }) => ({
   display: "flex",

@@ -7,12 +7,9 @@ import {
   Stack,
   Chip,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { gradientBackground } from "../../../theme/utils";
+import { gradients } from "../../../theme/utils";
 
 export const ProfileCard: FC = () => {
-  const theme = useTheme();
-
   return (
     <Card
       sx={{
@@ -30,7 +27,7 @@ export const ProfileCard: FC = () => {
             height: 80,
             mx: "auto",
             mb: 2,
-            background: gradientBackground.secondary(theme),
+            background: (theme) => gradients.secondary(theme),
           }}
         >
           JD

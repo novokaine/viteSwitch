@@ -1,7 +1,6 @@
 import { type FC } from "react";
 import { Paper, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { gradientBackground } from "../../../theme/utils";
+import { gradients } from "../../../theme/utils";
 
 interface StatsCardProps {
   value: string;
@@ -14,12 +13,8 @@ export const StatsCard: FC<StatsCardProps> = ({
   label,
   gradientType,
 }) => {
-  const theme = useTheme();
-
   const gradient =
-    gradientType === "primary"
-      ? gradientBackground.primary(theme)
-      : gradientBackground.secondary(theme);
+    gradientType === "primary" ? gradients.primary : gradients.secondary;
 
   const textColor =
     gradientType === "primary"
@@ -31,7 +26,7 @@ export const StatsCard: FC<StatsCardProps> = ({
       sx={{
         p: 3,
         textAlign: "center",
-        background: gradient,
+        background: (theme) => gradient(theme),
         color: textColor,
       }}
     >
