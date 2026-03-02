@@ -1,13 +1,14 @@
 import { useAppSelector } from "../redux";
 import {
   getAccessToken,
-  getCurrentUserData,
+  getCurrentUserData
 } from "../redux/authSlice/selectors";
-import type { ROOTE_TYPE } from "./const";
+import { ROUTE_TYPE } from "./const";
 import ROUTES_PATHS from "./paths";
 const { LOGIN, DASHBOARD } = ROUTES_PATHS;
+const { PUBLIC, PRIVATE, ADMIN } = ROUTE_TYPE;
 
-export const useRedirectController = ({ type }: { type: ROOTE_TYPE }) => {
+export const useRedirectController = ({ type }: { type: ROUTE_TYPE }) => {
   const accessToken = useAppSelector(getAccessToken);
   const userData = useAppSelector(getCurrentUserData);
 
@@ -16,16 +17,16 @@ export const useRedirectController = ({ type }: { type: ROOTE_TYPE }) => {
   let defaultRedirectPath = LOGIN;
 
   switch (type) {
-    case "public":
+    case PUBLIC:
       hasAccess = !accessToken;
       shouldRedirect = !!accessToken;
       defaultRedirectPath = DASHBOARD;
       break;
-    case "private":
+    case PRIVATE:
       hasAccess = !!accessToken;
       shouldRedirect = !accessToken;
       break;
-    case "admin":
+    case ADMIN:
       hasAccess = !!(accessToken && userData?.isAdmin);
       shouldRedirect = !hasAccess;
       defaultRedirectPath = accessToken ? DASHBOARD : LOGIN;

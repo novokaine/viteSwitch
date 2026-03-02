@@ -2,7 +2,6 @@ import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
 import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
-// import "./styles/main.scss";
 
 const App = () => {
   const { isLoading, isFetching } = useGetUserProfileQuery();

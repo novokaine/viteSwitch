@@ -13,10 +13,10 @@ import {
 
 import LayoutWrapper from "../components/LayoutWrapper";
 import AuthGuard from "./AuthGuard";
-import { ROOTE_TYPE } from "./const";
+import { ROUTE_TYPE } from "./const";
 import { PaletteExplorer } from "../pages/PaletteExplorer";
 
-const { PUBLIC, PRIVATE, ADMIN } = ROOTE_TYPE;
+const { PUBLIC, PRIVATE, ADMIN } = ROUTE_TYPE;
 
 export const routes: CustomRouteObject[] = [
   {
