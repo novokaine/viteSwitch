@@ -1,9 +1,10 @@
-import { Button, Drawer, List, ListItem, ListItemText } from "@mui/material";
-import { Link } from "react-router-dom";
-import { navItems } from "../../../routes";
 import type { FC } from "react";
+import { Link } from "react-router-dom";
+import { Button, Drawer, ListItem, ListItemText } from "@mui/material";
+import { navItems } from "../../../routes";
 import { useAppSelector } from "../../../redux";
 import { getCurrentUserData } from "../../../redux/authSlice/selectors";
+import { StyledUserMenuList } from "./css/styles";
 
 const drawerWidth = 240;
 
@@ -17,6 +18,8 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
     ? navItems
     : navItems.filter(({ isAdmin }) => !isAdmin);
 
+  if (!userLinks) return null;
+
   return (
     <Drawer
       sx={{
@@ -24,34 +27,18 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
         flexShrink: 0,
         "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: "border-box",
-        },
+          boxSizing: "border-box"
+        }
       }}
       variant="persistent"
       anchor="left"
       className="menu-drawer"
       open={open}
       classes={{
-        root: "drawer-root",
-        paper: "drawer-paper",
+        paper: "drawer-paper"
       }}
     >
-      <List
-        sx={{
-          "& a, & button": {
-            textTransform: "none",
-            textDecoration: "none",
-            display: "block",
-            width: "100%",
-            boxSizing: "border-box",
-            color: "primary.main",
-            fontSize: "1rem",
-          },
-          "& button.active": {
-            bgcolor: "action.selected",
-          },
-        }}
-      >
+      <StyledUserMenuList>
         {userLinks.map(({ path, name }) => (
           <ListItem key={path} disablePadding>
             <Button className={getLinkClassName({ path })}>
@@ -61,7 +48,7 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
             </Button>
           </ListItem>
         ))}
-      </List>
+      </StyledUserMenuList>
     </Drawer>
   );
 };

@@ -1,5 +1,12 @@
 import type { FC } from "react";
-import { Button, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  Toolbar,
+  Typography
+} from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { useAppSelector } from "../../../redux";
 import { getCurrentUserData } from "../../../redux/authSlice/selectors";
@@ -13,7 +20,7 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
   const [logout] = useLazyLogoutQuery();
 
   return (
-    <StyledNavBar position="fixed">
+    <StyledNavBar position="fixed" sx={{ borderRadius: 0 }}>
       <Toolbar>
         <IconButton
           color="inherit"
@@ -22,29 +29,29 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
           edge="start"
           sx={[
             {
-              mr: 2,
-            },
+              mr: 2
+            }
           ]}
         >
           {open ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>
       </Toolbar>
       <StyledAuthControls>
-        <ul>
-          <li>
+        <List>
+          <ListItem>
             <Typography variant="h6" noWrap component="div">
               Welcome {userData?.username}
             </Typography>
-          </li>
-          <li>
+          </ListItem>
+          <ListItem>
             <Button type="button" onClick={() => logout()} variant="contained">
               Logout
             </Button>
-          </li>
-          <li>
+          </ListItem>
+          <ListItem>
             <ThemeToggle variant="icon" size="medium" />
-          </li>
-        </ul>
+          </ListItem>
+        </List>
       </StyledAuthControls>
     </StyledNavBar>
   );
