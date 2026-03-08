@@ -31,7 +31,7 @@ const getInitialPreferences = (): ThemePreferences => {
         themeMode:
           parsed.themeMode === "light" || parsed.themeMode === "dark"
             ? parsed.themeMode
-            : getSystemPreference(),
+            : getSystemPreference()
       };
     } catch {
       // Fall through to legacy
@@ -47,9 +47,10 @@ const getInitialPreferences = (): ThemePreferences => {
   return { themeName: "default", themeMode: getSystemPreference() };
 };
 
-export const useMultiTheme = (): ThemeContextType => {
-  const [preferences, setPreferences] =
-    useState<ThemePreferences>(getInitialPreferences);
+export const useMultiThemeProvider = (): ThemeContextType => {
+  const [preferences, setPreferences] = useState<ThemePreferences>(
+    getInitialPreferences
+  );
 
   // Persist to localStorage on every change
   useEffect(() => {
@@ -82,7 +83,7 @@ export const useMultiTheme = (): ThemeContextType => {
   const toggleMode = useCallback(() => {
     setPreferences((prev) => ({
       ...prev,
-      themeMode: prev.themeMode === "dark" ? "light" : "dark",
+      themeMode: prev.themeMode === "dark" ? "light" : "dark"
     }));
   }, []);
 
@@ -92,6 +93,6 @@ export const useMultiTheme = (): ThemeContextType => {
     isDark: preferences.themeMode === "dark",
     setThemeName,
     setThemeMode,
-    toggleMode,
+    toggleMode
   };
 };

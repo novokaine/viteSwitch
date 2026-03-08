@@ -6,7 +6,7 @@ import {
   ComponentsCard,
   TypographyCard,
   ProfileCard,
-  StatsCard,
+  StatsCard
 } from "./components";
 
 const ThemeShowcase: FC = () => (

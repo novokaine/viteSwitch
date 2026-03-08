@@ -49,7 +49,10 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
             </Button>
           </ListItem>
           <ListItem>
-            <ThemeToggle variant="icon" size="medium" />
+            <ThemeToggle variant="switch" />
+          </ListItem>
+          <ListItem>
+            <ThemeToggle variant="picker" showLabel />
           </ListItem>
         </List>
       </StyledAuthControls>

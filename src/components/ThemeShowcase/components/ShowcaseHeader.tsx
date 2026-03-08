@@ -15,7 +15,7 @@ export const ShowcaseHeader: FC = () => {
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
-          fontWeight: "bold",
+          fontWeight: "bold"
         }}
       >
         Theme Showcase

@@ -1,12 +1,5 @@
 import React, { type FC, useState } from "react";
-import {
-  Tooltip,
-  Box,
-  Fade,
-  Popover,
-  Typography,
-  Stack,
-} from "@mui/material";
+import { Tooltip, Box, Fade, Popover, Typography, Stack } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { useThemeContext } from "../../theme/hooks/hooks";
 import { themeRegistry } from "../../theme/themeOptions/themes";
@@ -23,9 +16,9 @@ interface ThemeToggleProps {
 const ThemeToggle: FC<ThemeToggleProps> = ({
   variant = "icon",
   size = "medium",
-  showLabel = false,
+  showLabel = false
 }) => {
-  const { toggleMode, themeMode, isDark, themeName, setThemeName } =
+  const { themeMode, isDark, themeName, setThemeName, toggleMode } =
     useThemeContext();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -81,7 +74,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
             borderRadius: "50%",
             background: `linear-gradient(135deg, ${themeRegistry[themeName].previewColors.primary}, ${themeRegistry[themeName].previewColors.secondary})`,
             border: "2px solid",
-            borderColor: "divider",
+            borderColor: "divider"
           }}
         />
         <S.SwitchLabel>
@@ -103,8 +96,8 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
         transformOrigin={{ vertical: "top", horizontal: "center" }}
         slotProps={{
           paper: {
-            sx: { p: 2, minWidth: 220, borderRadius: 2, mt: 1 },
-          },
+            sx: { p: 2, minWidth: 220, borderRadius: 2, mt: 1 }
+          }
         }}
       >
         <Typography
@@ -135,7 +128,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
                   cursor: "pointer",
                   bgcolor: isSelected ? "action.selected" : "transparent",
                   "&:hover": { bgcolor: "action.hover" },
-                  transition: "background-color 0.15s",
+                  transition: "background-color 0.15s"
                 }}
               >
                 <Box
@@ -146,7 +139,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
                     background: `linear-gradient(135deg, ${def.previewColors.primary}, ${def.previewColors.secondary})`,
                     border: "2px solid",
                     borderColor: isSelected ? "primary.main" : "divider",
-                    flexShrink: 0,
+                    flexShrink: 0
                   }}
                 />
                 <Typography
@@ -186,7 +179,7 @@ const ThemeToggle: FC<ThemeToggleProps> = ({
   const selectedVersion = {
     icon: iconVariant,
     switch: switchVariant,
-    picker: pickerVariant,
+    picker: pickerVariant
   };
 
   return selectedVersion[variant] || null;

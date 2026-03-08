@@ -6,7 +6,7 @@ import { glassmorphism } from "../../../theme/utils";
 
 const ColorSwatch: FC<{ color: string; label?: string }> = ({
   color,
-  label,
+  label
 }) => (
   <Box
     sx={{
@@ -14,8 +14,7 @@ const ColorSwatch: FC<{ color: string; label?: string }> = ({
       height: 40,
       borderRadius: 1,
       backgroundColor: color,
-      border: "2px solid",
-      borderColor: "divider",
+      border: "2px solid divider"
     }}
     title={label}
   />
@@ -23,7 +22,7 @@ const ColorSwatch: FC<{ color: string; label?: string }> = ({
 
 const ColorGroup: FC<{ title: string; colors: string[] }> = ({
   title,
-  colors,
+  colors
 }) => (
   <Box>
     <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -46,7 +45,7 @@ export const ColorSystemCard: FC = () => {
         height: "100%",
         background: glassmorphism(theme, 0.05).backgroundColor,
         backdropFilter: glassmorphism(theme).backdropFilter,
-        border: glassmorphism(theme).border,
+        border: glassmorphism(theme).border
       }}
     >
       <CardContent>

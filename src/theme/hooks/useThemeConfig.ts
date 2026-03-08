@@ -3,7 +3,7 @@ import { themeComponents } from "../themeOptions/themeComponents";
 import { useMemo } from "react";
 import { breakpoints, spacing, typography } from "../themeOptions";
 import { getThemePalette } from "../themeOptions/themes";
-import type { ThemeName, ThemeMode } from "../types";
+import type { ThemeMode, ThemeName } from "../types";
 
 export const useThemeConfig = (themeName: ThemeName, themeMode: ThemeMode) => {
   const palette = getThemePalette(themeName, themeMode);
@@ -19,7 +19,7 @@ export const useThemeConfig = (themeName: ThemeName, themeMode: ThemeMode) => {
         shape: { borderRadius: 8 },
         transitions: {
           easing: {
-            easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+            easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)"
           },
           duration: {
             shortest: 150,
@@ -28,10 +28,10 @@ export const useThemeConfig = (themeName: ThemeName, themeMode: ThemeMode) => {
             standard: 300,
             complex: 375,
             enteringScreen: 225,
-            leavingScreen: 195,
-          },
-        },
+            leavingScreen: 195
+          }
+        }
       }),
-    [palette],
+    [palette]
   );
 };
