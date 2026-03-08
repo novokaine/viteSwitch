@@ -1,5 +1,4 @@
-import type { PaletteOptions } from "@mui/material/styles";
-import type { ThemeName, ThemeMode, ThemeDefinition } from "../../types";
+import type { ThemeName, ThemeDefinition } from "../../types";
 import { defaultTheme } from "./default";
 import { oceanTheme } from "./ocean";
 import { forestTheme } from "./forest";
@@ -13,13 +12,5 @@ export const themeRegistry: Record<ThemeName, ThemeDefinition> = {
   forest: forestTheme,
   sunset: sunsetTheme,
   midnight: midnightTheme,
-  cyberpunk: cyberpunkTheme,
-};
-
-export const getThemePalette = (
-  name: ThemeName,
-  mode: ThemeMode,
-): PaletteOptions => {
-  const definition = themeRegistry[name];
-  return mode === "dark" ? definition.dark : definition.light;
+  cyberpunk: cyberpunkTheme
 };

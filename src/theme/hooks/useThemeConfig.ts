@@ -2,11 +2,11 @@ import { createTheme } from "@mui/material/styles";
 import { themeComponents } from "../themeOptions/themeComponents";
 import { useMemo } from "react";
 import { breakpoints, spacing, typography } from "../themeOptions";
-import { getThemePalette } from "../themeOptions/themes";
+import { themeRegistry } from "../themeOptions/themes";
 import type { ThemeMode, ThemeName } from "../types";
 
 export const useThemeConfig = (themeName: ThemeName, themeMode: ThemeMode) => {
-  const palette = getThemePalette(themeName, themeMode);
+  const palette = themeRegistry[themeName][themeMode];
 
   return useMemo(
     () =>

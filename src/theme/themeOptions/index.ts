@@ -3,9 +3,9 @@ export {
   lightPalette,
   darkPalette,
   breakpoints,
-  spacing,
+  spacing
 } from "./palette";
 
 export { typography } from "./typography";
 export { themeComponents } from "./themeComponents";
-export { themeRegistry, getThemePalette } from "./themes";
+export { themeRegistry } from "./themes";
