@@ -1,2 +1,5 @@
-const Profile = () => <p>Profile here</p>;
+import { ProfileView } from "../../../features/profile";
+
+const Profile = () => <ProfileView />;
+
 export default Profile;

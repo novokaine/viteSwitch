@@ -1,12 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
-import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
+import { useAuthBootstrap } from "./features/auth";
 
 const App = () => {
-  const { isLoading, isFetching } = useGetUserProfileQuery();
+  const { isBootstrapping } = useAuthBootstrap();
 
-  if (isLoading || isFetching) {
+  if (isBootstrapping) {
     return (
       <Box
         display="flex"

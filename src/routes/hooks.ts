@@ -1,16 +1,11 @@
-import { useAppSelector } from "../redux";
-import {
-  getAccessToken,
-  getCurrentUserData
-} from "../redux/authSlice/selectors";
+import { useAuthSession } from "../features/auth";
 import { ROUTE_TYPE } from "./const";
 import ROUTES_PATHS from "./paths";
 const { LOGIN, DASHBOARD } = ROUTES_PATHS;
 const { PUBLIC, PRIVATE, ADMIN } = ROUTE_TYPE;
 
 export const useRedirectController = ({ type }: { type: ROUTE_TYPE }) => {
-  const accessToken = useAppSelector(getAccessToken);
-  const userData = useAppSelector(getCurrentUserData);
+  const { accessToken, userData } = useAuthSession();
 
   let hasAccess = false;
   let shouldRedirect = false;

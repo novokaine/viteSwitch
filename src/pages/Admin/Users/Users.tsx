@@ -1,2 +1,5 @@
-const Users = () => <p>Users here</p>;
+import { AdminUsersTable } from "../../../features/admin/users";
+
+const Users = () => <AdminUsersTable />;
+
 export default Users;

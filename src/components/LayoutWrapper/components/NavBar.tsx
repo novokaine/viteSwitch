@@ -8,16 +8,13 @@ import {
   Typography
 } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { useAppSelector } from "../../../redux";
-import { getCurrentUserData } from "../../../redux/authSlice/selectors";
 import { StyledAuthControls, StyledNavBar } from "./css/styles";
-import { useLazyLogoutQuery } from "../../../api/userApi";
 import ThemeToggle from "../../ThemeToggle";
+import { useAuthSession, useLogoutMutation } from "../../../features/auth";
 
 const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
-  const userData = useAppSelector(getCurrentUserData);
-
-  const [logout] = useLazyLogoutQuery();
+  const { userData } = useAuthSession();
+  const { mutate: logout, isPending } = useLogoutMutation();
 
   return (
     <StyledNavBar position="fixed" sx={{ borderRadius: 0 }}>
@@ -44,7 +41,12 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
             </Typography>
           </ListItem>
           <ListItem>
-            <Button type="button" onClick={() => logout()} variant="contained">
+            <Button
+              type="button"
+              onClick={() => logout()}
+              variant="contained"
+              disabled={isPending}
+            >
               Logout
             </Button>
           </ListItem>

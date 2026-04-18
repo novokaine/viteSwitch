@@ -2,9 +2,8 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import { Button, Drawer, ListItem, ListItemText } from "@mui/material";
 import { navItems } from "../../../routes";
-import { useAppSelector } from "../../../redux";
-import { getCurrentUserData } from "../../../redux/authSlice/selectors";
 import { StyledUserMenuList } from "./css/styles";
+import { useAuthSession } from "../../../features/auth";
 
 const drawerWidth = 240;
 
@@ -12,7 +11,7 @@ const getLinkClassName = ({ path }: { path: string }) =>
   location.pathname.startsWith(path) ? "active" : "";
 
 const NavMenu: FC<{ open: boolean }> = ({ open }) => {
-  const userData = useAppSelector(getCurrentUserData);
+  const { userData } = useAuthSession();
 
   const userLinks = userData?.isAdmin
     ? navItems

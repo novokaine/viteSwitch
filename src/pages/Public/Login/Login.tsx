@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-import TextField from "@mui/material/TextField";
 import {
   Box,
   Button,
@@ -8,37 +6,14 @@ import {
   Paper,
   Typography
 } from "@mui/material";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { useLoginMutation } from "../../../api/userApi";
-import { useAppSelector } from "../../../redux/";
-import { getUserLoginState } from "../../../redux/authSlice/selectors";
-import { ERROR, IDLE, LOADING } from "../../../const/Loaders";
+import FormTextField from "../../../components/FormTextField";
+import { FormProvider } from "react-hook-form";
 import DialogModal from "../../../components/DialogModal";
-import { updateUserLoginState } from "../../../redux/authSlice";
+import { useLoginForm } from "../../../features/auth";
 
 const Login = () => {
-  const userState = useAppSelector(getUserLoginState);
-  const isUserLoading = userState === LOADING;
-
-  const dispatch = useDispatch();
-  const [onUserLogin] = useLoginMutation();
-
-  const formik = useFormik<IUserLogin>({
-    // initialValues: {
-    //   username: "testuser",
-    //   password: "randomPassowrd"
-    // },
-    initialValues: {
-      username: "sergiu",
-      password: "someRandomPassword"
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Username is required"),
-      password: Yup.string().required("Password is required")
-    }),
-    onSubmit: (userData: IUserLogin) => onUserLogin(userData)
-  });
+  const { methods, isError, isPending, resetError, handleSubmit } =
+    useLoginForm();
 
   return (
     <Container
@@ -53,55 +28,51 @@ const Login = () => {
       }}
     >
       <DialogModal
-        isOpen={userState === ERROR}
+        isOpen={isError}
         dialogTitle="Error"
-        dialogText="Authentication error occured"
-        handleClose={() => dispatch(updateUserLoginState(IDLE))}
+        dialogText="Authentication error occurred"
+        handleClose={resetError}
       />
       <Paper elevation={3} sx={{ padding: 3, width: "100%" }}>
         <Typography variant="h5" align="center" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="userName"
-            label="Please enter your username*"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
-            margin="normal"
-            autoComplete="off"
-          />
-          <TextField
-            fullWidth
-            type="password"
-            id="password"
-            label="Please enter your password*"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            margin="normal"
-            autoComplete="off"
-          />
-          <Box mt={2}>
-            <Button
-              color="primary"
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit} noValidate>
+            <FormTextField
               fullWidth
-              variant="contained"
-              type="submit"
-              disabled={isUserLoading}
-              className="submit"
-            >
-              <span>Login</span>
-              {isUserLoading && (
-                <CircularProgress className="spinner" size={20} />
-              )}
-            </Button>
-          </Box>
-        </form>
+              name="username"
+              label="Please enter your username"
+              margin="normal"
+              autoComplete="off"
+              required
+            />
+            <FormTextField
+              fullWidth
+              type="password"
+              name="password"
+              label="Please enter your password"
+              margin="normal"
+              autoComplete="off"
+              required
+            />
+            <Box mt={2}>
+              <Button
+                color="primary"
+                fullWidth
+                variant="contained"
+                type="submit"
+                disabled={isPending}
+                className="submit"
+              >
+                <span>Login</span>
+                {isPending && (
+                  <CircularProgress className="spinner" size={20} />
+                )}
+              </Button>
+            </Box>
+          </form>
+        </FormProvider>
         {/* <Box mt={2} alignContent="end">
           <Stack spacing={5} direction="row" justifyContent="flex-end">
             <Link to={REGISTER}>Register</Link>
@@ -112,5 +83,4 @@ const Login = () => {
     </Container>
   );
 };
-
 export default Login;
