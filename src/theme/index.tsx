@@ -1,34 +1,24 @@
-import { useCallback, useMemo, useState, type FC, type ReactNode } from "react";
-import {
-  createTheme,
-  CssBaseline,
-  ThemeProvider,
-  type Theme
-} from "@mui/material";
-import { DARK, LIGHT, ThemeContext, type THEME_OPTIONS } from "./const";
-import { themeComponents } from "./themeOptions/themeComponents";
-import { darkPalette, lightPalette } from "./themeOptions/palette";
+import { type FC, type ReactNode } from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { useThemeConfig } from "./hooks/useThemeConfig";
+import { useMultiThemeProvider } from "./hooks/useMultiTheme";
+import { ThemeContext } from "./context";
 
-const ThemeProviderWrapper: FC<{ children: ReactNode }> = ({ children }) => {
-  const [themeMode, setThemeMode] = useState<THEME_OPTIONS>(LIGHT);
+interface MUIThemeProviderProps {
+  children: ReactNode;
+}
 
-  const selectedTheme: Theme = useMemo(() => {
-    const palette = themeMode === DARK ? darkPalette : lightPalette;
-
-    return createTheme({
-      palette,
-      components: themeComponents
-    });
-  }, [themeMode]);
-
-  const toggleTheme = useCallback(
-    () => setThemeMode((prev) => (prev === DARK ? LIGHT : DARK)),
-    []
+const ThemeProviderWrapper: FC<MUIThemeProviderProps> = ({ children }) => {
+  const themeControls = useMultiThemeProvider();
+  const theme = useThemeConfig(
+    themeControls.themeName,
+    themeControls.themeMode
   );
 
   return (
-    <ThemeContext.Provider value={{ toggleTheme }}>
-      <ThemeProvider theme={selectedTheme}>
+    <ThemeContext.Provider value={themeControls}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>

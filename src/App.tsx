@@ -1,13 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
-import { useGetUserProfileQuery } from "./api/userApi";
 import { Box, CircularProgress } from "@mui/material";
-import ThemeProviderWrapper from "./theme";
+import { useAuthBootstrap } from "./features/auth";
 
 const App = () => {
-  const { isLoading, isFetching } = useGetUserProfileQuery();
+  const { isBootstrapping } = useAuthBootstrap();
 
-  if (isLoading || isFetching) {
+  if (isBootstrapping) {
     return (
       <Box
         display="flex"
@@ -20,11 +19,7 @@ const App = () => {
     );
   }
 
-  return (
-    <ThemeProviderWrapper>
-      <RouterProvider router={appRoutes} />
-    </ThemeProviderWrapper>
-  );
+  return <RouterProvider router={appRoutes} />;
 };
 
 export default App;
