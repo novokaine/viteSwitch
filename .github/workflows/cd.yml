@@ -26,7 +26,7 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client rsync
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
 
       - name: Configure SSH key
         uses: shimataro/ssh-key-action@v2
@@ -42,13 +42,11 @@ jobs:
           PORT: ${{ secrets.SSH_PORT }}
           USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.TARGET_DIR }}
-          PUBLIC_DIR: ${{ secrets.PUBLIC_DIR }}
           BUILD_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.environment == 'Production' && 'production' || 'staging') || (github.ref_name == 'main' && 'production' || 'staging') }}
         run: |
           test -n "${HOST}" || { echo "Missing SSH_HOST secret"; exit 1; }
           test -n "${USER}" || { echo "Missing SSH_USER secret"; exit 1; }
           test -n "${TARGET}" || { echo "Missing TARGET_DIR secret"; exit 1; }
-          test -n "${PUBLIC_DIR}" || { echo "Missing PUBLIC_DIR secret"; exit 1; }
           PORT="${PORT:-22}"
 
           case "${HOST}" in
@@ -62,7 +60,6 @@ jobs:
           ssh -p "${PORT}" -o StrictHostKeyChecking=no ${USER}@${HOST} "\
             set -e; \
             mkdir -p ${TARGET}; \
-            mkdir -p ${PUBLIC_DIR}; \
             cd ${TARGET}; \
             if [ -d .git ]; then \
               git fetch origin ${BRANCH}; \
@@ -75,6 +72,5 @@ jobs:
               echo '.env.'${BUILD_MODE}'.local is missing in '${TARGET}; \
               exit 1; \
             fi; \
-            npm ci; \
-            npm run build:${BUILD_MODE}; \
-            rsync -a --delete dist/ ${PUBLIC_DIR}/"
+            docker compose --env-file .env.${BUILD_MODE}.local up -d --build --remove-orphans; \
+            docker image prune -f"
