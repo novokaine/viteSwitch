@@ -1,17 +1,10 @@
-name: CD - Remote deploy frontend
+name: CD - Remote deploy
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
     inputs:
-      environment:
-        description: "Environment to deploy"
-        required: true
-        type: choice
-        options:
-          - Production
-          - Staging
       branch:
         description: "Branch to deploy"
         required: true
@@ -20,9 +13,9 @@ on:
 jobs:
   deploy-to-server:
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || (github.ref_name == 'main' && 'Production' || 'Staging') }}
+    environment: Production
     concurrency:
-      group: frontend-deploy-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || github.ref_name }}
+      group: deploy-production
       cancel-in-progress: true
     steps:
       - name: Install SSH client
@@ -34,12 +27,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: unnecessary
 
-      - name: Remote deploy frontend
+      - name: Remote deploy
         env:
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref_name }}
           HOST: ${{ secrets.SSH_HOST }}
-          PORT: ${{ secrets.SSH_PORT }}
           USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.TARGET_DIR }}
           BUILD_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.environment == 'Production' && 'production' || 'staging') || (github.ref_name == 'main' && 'production' || 'staging') }}
