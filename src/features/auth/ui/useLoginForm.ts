@@ -15,7 +15,7 @@ export const useLoginForm = () => {
   const methods = useForm<LoginCredentials>({
     defaultValues: {
       username: "sergiu",
-      password: "someRandomPassword"
+      password: "photoDeliveryService"
     },
     resolver: yupResolver(loginSchema),
     mode: "onTouched"
