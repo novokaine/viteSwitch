@@ -65,5 +65,5 @@ jobs:
               exit 1
             fi
 
-            docker compose --env-file .env.${BUILD_MODE}.local up -d --build --remove-orphans; \
+            docker compose --env-file .env up -d --build --remove-orphans
             docker image prune -f"
