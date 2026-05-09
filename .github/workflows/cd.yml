@@ -1,17 +1,10 @@
-name: CD - Remote deploy frontend
+name: CD - Remote deploy
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
     inputs:
-      environment:
-        description: "Environment to deploy"
-        required: true
-        type: choice
-        options:
-          - Production
-          - Staging
       branch:
         description: "Branch to deploy"
         required: true
@@ -20,13 +13,13 @@ on:
 jobs:
   deploy-to-server:
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || (github.ref_name == 'main' && 'Production' || 'Staging') }}
+    environment: Production
     concurrency:
-      group: frontend-deploy-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || github.ref_name }}
+      group: deploy-production
       cancel-in-progress: true
     steps:
       - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client rsync
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
 
       - name: Configure SSH key
         uses: shimataro/ssh-key-action@v2
@@ -34,22 +27,17 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: unnecessary
 
-      - name: Remote deploy frontend
+      - name: Remote deploy
         env:
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref_name }}
-          HOST: ${{ secrets.SSH_HOST }}
-          PORT: ${{ secrets.SSH_PORT }}
-          USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.TARGET_DIR }}
-          PUBLIC_DIR: ${{ secrets.PUBLIC_DIR }}
-          BUILD_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.environment == 'Production' && 'production' || 'staging') || (github.ref_name == 'main' && 'production' || 'staging') }}
+          HOST: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
         run: |
           test -n "${HOST}" || { echo "Missing SSH_HOST secret"; exit 1; }
           test -n "${USER}" || { echo "Missing SSH_USER secret"; exit 1; }
           test -n "${TARGET}" || { echo "Missing TARGET_DIR secret"; exit 1; }
-          test -n "${PUBLIC_DIR}" || { echo "Missing PUBLIC_DIR secret"; exit 1; }
-          PORT="${PORT:-22}"
 
           case "${HOST}" in
             http://*|https://*)
@@ -58,23 +46,38 @@ jobs:
               ;;
           esac
 
-          ssh-keyscan -p "${PORT}" -H "${HOST}" >> ~/.ssh/known_hosts
-          ssh -p "${PORT}" -o StrictHostKeyChecking=no ${USER}@${HOST} "\
-            set -e; \
-            mkdir -p ${TARGET}; \
-            mkdir -p ${PUBLIC_DIR}; \
-            cd ${TARGET}; \
-            if [ -d .git ]; then \
-              git fetch origin ${BRANCH}; \
-              git checkout ${BRANCH} || git checkout -b ${BRANCH} origin/${BRANCH}; \
-              git reset --hard origin/${BRANCH}; \
-            else \
-              git clone --branch ${BRANCH} git@github.com:${REPO} .; \
-            fi; \
-            if [ ! -f .env.${BUILD_MODE}.local ]; then \
-              echo '.env.'${BUILD_MODE}'.local is missing in '${TARGET}; \
-              exit 1; \
-            fi; \
-            npm ci; \
-            npm run build:${BUILD_MODE}; \
-            rsync -a --delete dist/ ${PUBLIC_DIR}/"
+          ssh-keyscan -p 22 -H "${HOST}" >> ~/.ssh/known_hosts
+          ssh -p 22 -o StrictHostKeyChecking=no ${USER}@${HOST} "TARGET_DIR='${TARGET}' BRANCH_NAME='${BRANCH}' REPO_NAME='${REPO}' SSH_USER_NAME='${USER}' bash -s" <<'EOF'
+          set -e
+
+          mkdir -p "$TARGET_DIR"
+          if [ ! -w "$TARGET_DIR" ]; then
+            echo "TARGET_DIR is not writable by ${SSH_USER_NAME}: ${TARGET_DIR}"
+            exit 1
+          fi
+
+          cd "$TARGET_DIR"
+
+          if [ -d .git ]; then
+            git fetch origin "$BRANCH_NAME"
+            git reset --hard
+            git clean -fd
+            git checkout -B "$BRANCH_NAME" "origin/$BRANCH_NAME"
+            git reset --hard "origin/$BRANCH_NAME"
+          else
+            git clone --branch "$BRANCH_NAME" "git@github.com:$REPO_NAME" .
+          fi
+
+          if [ ! -f .env ]; then
+            echo ".env is missing in $TARGET_DIR"
+            exit 1
+          fi
+
+          if grep -Eq '^[[:space:]]*NODE_ENV=development([[:space:]]*)$' .env; then
+            echo "Remote .env must set NODE_ENV=production for deployed environments"
+            exit 1
+          fi
+
+          docker compose up -d --build --remove-orphans
+          docker image prune -f
+          EOF
