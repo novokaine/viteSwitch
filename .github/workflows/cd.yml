@@ -34,7 +34,6 @@ jobs:
           HOST: ${{ secrets.SSH_HOST }}
           USER: ${{ secrets.SSH_USER }}
           TARGET: ${{ secrets.TARGET_DIR }}
-          BUILD_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.environment == 'Production' && 'production' || 'staging') || (github.ref_name == 'main' && 'production' || 'staging') }}
         run: |
           test -n "${HOST}" || { echo "Missing SSH_HOST secret"; exit 1; }
           test -n "${USER}" || { echo "Missing SSH_USER secret"; exit 1; }
