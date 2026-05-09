@@ -58,10 +58,12 @@ jobs:
               git reset --hard origin/${BRANCH}; \
             else \
               git clone --branch ${BRANCH} git@github.com:${REPO} .; \
-            fi; \
+            fi
+
             if [ ! -f .env ]; then
               echo ".env is missing in $TARGET_DIR"
               exit 1
-            fi; \
+            fi
+
             docker compose --env-file .env.${BUILD_MODE}.local up -d --build --remove-orphans; \
             docker image prune -f"
