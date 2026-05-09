@@ -1,9 +1,8 @@
-import { type FC, type ReactNode } from "react";
-import { ThemeProvider } from "@mui/material/styles";
+import type { FC, ReactNode } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useThemeConfig } from "./hooks/useThemeConfig";
-import { useMultiThemeProvider } from "./hooks/useMultiTheme";
+import { ThemeProvider } from "@mui/material/styles";
 import { ThemeContext } from "./context";
+import { useMultiThemeProvider, useThemeConfig } from "./hooks";
 
 interface MUIThemeProviderProps {
   children: ReactNode;

@@ -7,44 +7,70 @@ interface ThemePreferences {
   themeMode: ThemeMode;
 }
 
+const DEFAULT_THEME_PREFERENCES: ThemePreferences = {
+  themeName: "default",
+  themeMode: "light"
+};
+
 const getSystemPreference = (): ThemeMode =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
 
+const isThemeName = (value: unknown): value is ThemeName =>
+  typeof value === "string" && THEME_NAMES.includes(value as ThemeName);
+
+const isThemeMode = (value: unknown): value is ThemeMode =>
+  value === "light" || value === "dark";
+
+const readStoredPreferences = (): ThemePreferences | null => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if (!saved) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(saved) as Partial<ThemePreferences>;
+
+    return {
+      themeName: isThemeName(parsed.themeName)
+        ? parsed.themeName
+        : DEFAULT_THEME_PREFERENCES.themeName,
+      themeMode: isThemeMode(parsed.themeMode)
+        ? parsed.themeMode
+        : getSystemPreference()
+    };
+  } catch {
+    return null;
+  }
+};
+
 const getInitialPreferences = (): ThemePreferences => {
   if (typeof window === "undefined") {
-    return { themeName: "default", themeMode: "light" };
+    return DEFAULT_THEME_PREFERENCES;
   }
 
-  // Try new storage key first
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved) as Partial<ThemePreferences>;
-      return {
-        themeName:
-          parsed.themeName && THEME_NAMES.includes(parsed.themeName)
-            ? parsed.themeName
-            : "default",
-        themeMode:
-          parsed.themeMode === "light" || parsed.themeMode === "dark"
-            ? parsed.themeMode
-            : getSystemPreference()
-      };
-    } catch {
-      // Fall through to legacy
-    }
+  const storedPreferences = readStoredPreferences();
+
+  if (storedPreferences) {
+    return storedPreferences;
   }
 
-  // Migrate from legacy key
   const legacy = localStorage.getItem("theme-mode");
-  if (legacy === "light" || legacy === "dark") {
-    return { themeName: "default", themeMode: legacy };
+
+  if (isThemeMode(legacy)) {
+    return {
+      themeName: DEFAULT_THEME_PREFERENCES.themeName,
+      themeMode: legacy
+    };
   }
 
-  return { themeName: "default", themeMode: getSystemPreference() };
+  return {
+    themeName: DEFAULT_THEME_PREFERENCES.themeName,
+    themeMode: getSystemPreference()
+  };
 };
 
 export const useMultiThemeProvider = (): ThemeContextType => {
@@ -52,25 +78,9 @@ export const useMultiThemeProvider = (): ThemeContextType => {
     getInitialPreferences
   );
 
-  // Persist to localStorage on every change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
   }, [preferences]);
-
-  // Listen to system preference changes
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => {
-      setPreferences((prev) => {
-        // Only follow system if user hasn't explicitly set a mode
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) return prev;
-        return { ...prev, themeMode: e.matches ? "dark" : "light" };
-      });
-    };
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   const setThemeName = useCallback((name: ThemeName) => {
     setPreferences((prev) => ({ ...prev, themeName: name }));

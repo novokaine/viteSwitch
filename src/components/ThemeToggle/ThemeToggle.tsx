@@ -1,7 +1,7 @@
 import React, { type FC, useState } from "react";
 import { Tooltip, Box, Fade, Popover, Typography, Stack } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { useThemeContext } from "../../theme/hooks/hooks";
+import { useThemeContext } from "../../theme";
 import { themeRegistry } from "../../theme/themeOptions/themes";
 import { THEME_NAMES } from "../../theme/types";
 import type { ThemeName } from "../../theme/types";
