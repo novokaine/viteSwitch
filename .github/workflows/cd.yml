@@ -62,6 +62,6 @@ jobs:
             if [ ! -f .env ]; then
               echo ".env is missing in $TARGET_DIR"
               exit 1
-            fi \
+            fi; \
             docker compose --env-file .env.${BUILD_MODE}.local up -d --build --remove-orphans; \
             docker image prune -f"
