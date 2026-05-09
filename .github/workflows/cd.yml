@@ -31,9 +31,9 @@ jobs:
         env:
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref_name }}
+          TARGET: ${{ secrets.TARGET_DIR }}
           HOST: ${{ secrets.SSH_HOST }}
           USER: ${{ secrets.SSH_USER }}
-          TARGET: ${{ secrets.TARGET_DIR }}
         run: |
           test -n "${HOST}" || { echo "Missing SSH_HOST secret"; exit 1; }
           test -n "${USER}" || { echo "Missing SSH_USER secret"; exit 1; }
@@ -59,9 +59,9 @@ jobs:
             else \
               git clone --branch ${BRANCH} git@github.com:${REPO} .; \
             fi; \
-            if [ ! -f .env.${BUILD_MODE}.local ]; then \
-              echo '.env.'${BUILD_MODE}'.local is missing in '${TARGET}; \
-              exit 1; \
-            fi; \
+            if [ ! -f .env ]; then
+              echo ".env is missing in $TARGET_DIR"
+              exit 1
+            fi \
             docker compose --env-file .env.${BUILD_MODE}.local up -d --build --remove-orphans; \
             docker image prune -f"
