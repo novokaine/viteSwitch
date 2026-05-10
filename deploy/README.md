@@ -2,18 +2,18 @@
 
 ## Recommended model
 
-For this Vite frontend, the cleanest Ubuntu deployment flow is:
+For this Vite frontend, the simplest Ubuntu deployment flow is:
 
 1. GitHub Actions connects to your server over SSH.
 2. The repo is updated on the server.
 3. `docker compose up -d --build --remove-orphans` runs on the server.
 4. The frontend container starts or is recreated with the newest code.
-5. Host Nginx proxies the public domain to the container port.
+5. The container serves the built frontend on port `3000`.
 
 This means:
 - GitHub pushes deployment commands to the server.
 - The server owns the running container lifecycle.
-- The frontend deploy style matches your backend much more closely.
+- The container has one responsibility: serve the built app.
 
 ## Branch strategy
 
@@ -69,12 +69,12 @@ Files added in the repo:
 - `Dockerfile`
 - `docker-compose.yml`
 - `.dockerignore`
-- `deploy/nginx/container.default.conf`
 
 How it works:
 - Docker builds the Vite app in a Node stage
-- Nginx inside the container serves `dist/`
-- Host Nginx proxies the public domain to the container port
+- a lightweight Node container serves `dist/`
+- the container always listens on `3000`
+- the host port is controlled by `APP_PORT`
 
 ## Server env files
 
@@ -86,7 +86,7 @@ Example `.env.production.local`:
 
 ```env
 VITE_API_URL=https://ojoc.home.ro/api
-APP_PORT=8080
+APP_PORT=3000
 APP_CONTAINER_NAME=photo-delivery-frontend-production
 ```
 
@@ -94,19 +94,9 @@ Example `.env.staging.local`:
 
 ```env
 VITE_API_URL=https://stage.ojoc.home.ro/api
-APP_PORT=8081
+APP_PORT=3001
 APP_CONTAINER_NAME=photo-delivery-frontend-staging
 ```
-
-## Host Nginx
-
-Example host configs are in:
-- `deploy/nginx/photo-delivery.production.conf.example`
-- `deploy/nginx/photo-delivery.staging.conf.example`
-
-These proxy traffic to the Docker containers:
-- production -> `127.0.0.1:8080`
-- staging -> `127.0.0.1:8081`
 
 ## First deployment checklist
 
@@ -115,7 +105,7 @@ These proxy traffic to the Docker containers:
 3. Create a non-root deploy user or reuse an existing one.
 4. Add the SSH public key to `authorized_keys`.
 5. Put `.env.production.local` and `.env.staging.local` in `TARGET_DIR`.
-6. Configure host Nginx using the example files.
+6. Make sure the chosen host ports are open.
 7. Add GitHub environment secrets.
 8. Merge to `main` or run the workflow manually.
 
@@ -133,10 +123,7 @@ Behavior:
 
 ## Notes on domains and API
 
-Production:
-- `ojoc.home.ro`
-
-Staging:
-- `stage.ojoc.home.ro`
+Production can bind directly to host port `3000`.
+Staging can bind to another host port such as `3001`.
 
 Frontend API URL is baked at build time, so make sure each server env file points at the correct backend URL.
