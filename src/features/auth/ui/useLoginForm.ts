@@ -14,7 +14,7 @@ export const loginSchema = yup
 export const useLoginForm = () => {
   const methods = useForm<LoginCredentials>({
     defaultValues: {
-      username: "sergiu",
+      username: "admin",
       password: "photoDeliveryService"
     },
     resolver: yupResolver(loginSchema),
