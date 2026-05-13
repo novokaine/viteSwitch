@@ -1,14 +1,10 @@
 import type { FC } from "react";
-import { Link } from "react-router-dom";
-import { Button, Drawer, ListItem, ListItemText } from "@mui/material";
+import { Drawer, ListItem, ListItemText } from "@mui/material";
 import { navItems } from "../../../routes";
-import { StyledUserMenuList } from "./css/styles";
+import { StyledNavLink, StyledUserMenuList } from "./css/styles";
 import { useAuthSession } from "../../../features/auth";
 
 const drawerWidth = 240;
-
-const getLinkClassName = ({ path }: { path: string }) =>
-  location.pathname.startsWith(path) ? "active" : "";
 
 const NavMenu: FC<{ open: boolean }> = ({ open }) => {
   const { userData } = useAuthSession();
@@ -40,11 +36,9 @@ const NavMenu: FC<{ open: boolean }> = ({ open }) => {
       <StyledUserMenuList>
         {userLinks.map(({ path, name }) => (
           <ListItem key={path} disablePadding>
-            <Button className={getLinkClassName({ path })}>
-              <Link to={path}>
-                <ListItemText primary={name} />
-              </Link>
-            </Button>
+            <StyledNavLink to={path}>
+              <ListItemText primary={name} />
+            </StyledNavLink>
           </ListItem>
         ))}
       </StyledUserMenuList>

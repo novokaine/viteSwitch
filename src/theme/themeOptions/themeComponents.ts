@@ -48,6 +48,7 @@ export const themeComponents: Components<Theme> = {
     styleOverrides: {
       root: ({ theme }) => ({
         borderRadius: 16,
+        margin: theme.spacing(3),
         boxShadow:
           theme.palette.mode === "light"
             ? "0px 2px 8px rgba(0, 0, 0, 0.1), 0px 1px 4px rgba(0, 0, 0, 0.06)"

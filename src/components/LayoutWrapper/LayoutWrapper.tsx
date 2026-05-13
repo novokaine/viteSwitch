@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import { useState, type FC } from "react";
 import { NavBar, NavMenu } from "./components";
 
@@ -16,7 +16,9 @@ const LayoutWrapper: FC<ILaoyutWrapper> = ({ children }) => {
       <NavMenu open={isNavOpen} />
 
       <div className={`main-wrapper ${isNavOpen ? "active" : ""}`}>
-        {children}
+        <Card>
+          <CardContent>{children}</CardContent>
+        </Card>
       </div>
     </Box>
   );

@@ -1,5 +1,5 @@
-import { http } from "../../../lib/http";
-import type { AuthUser } from "../../auth";
+import type { AuthUser } from "../features/auth";
+import { http } from "../lib/http";
 
 export interface UserProfile extends AuthUser {
   id?: string;
