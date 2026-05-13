@@ -1,4 +1,3 @@
-import React from "react";
 import ThemeShowcase from "../components/ThemeShowcase";
 
 export const PaletteExplorer = () => {

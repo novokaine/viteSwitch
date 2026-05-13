@@ -4,7 +4,7 @@ import type {
   AuthSession,
   AuthStatus,
   AuthUser
-} from "../features/auth/domain/auth.types";
+} from "@app-types/auth";
 
 interface AuthStoreState {
   status: AuthStatus;

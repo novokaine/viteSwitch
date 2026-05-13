@@ -10,7 +10,8 @@ import {
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { StyledAuthControls, StyledNavBar } from "./css/styles";
 import ThemeToggle from "../../ThemeToggle";
-import { useAuthSession, useLogoutMutation } from "../../../features/auth";
+import { useAuthSession } from "@auth-hooks/useAuthSession";
+import { useLogoutMutation } from "@auth-hooks/useLogoutMutation";
 
 const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
   const { userData } = useAuthSession();
@@ -24,11 +25,7 @@ const NavBar: FC<INavBarType> = ({ open, toggleNavBar }) => {
           aria-label="open drawer"
           onClick={toggleNavBar}
           edge="start"
-          sx={[
-            {
-              mr: 2
-            }
-          ]}
+          sx={[{ mr: 2 }]}
         >
           {open ? <ChevronLeft /> : <ChevronRight />}
         </IconButton>

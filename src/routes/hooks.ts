@@ -1,4 +1,4 @@
-import { useAuthSession } from "../features/auth";
+import { useAuthSession } from "@auth-hooks/useAuthSession";
 import { ROUTE_TYPE } from "./const";
 import ROUTES_PATHS from "./paths";
 const { LOGIN, DASHBOARD } = ROUTES_PATHS;

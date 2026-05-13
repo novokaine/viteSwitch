@@ -6,10 +6,10 @@ import {
   Paper,
   Typography
 } from "@mui/material";
-import FormTextField from "../../../components/FormTextField";
+import FormTextField from "@components/FormTextField";
 import { FormProvider } from "react-hook-form";
-import DialogModal from "../../../components/DialogModal";
-import { useLoginForm } from "../../../features/auth";
+import DialogModal from "@components/DialogModal";
+import { useLoginForm } from "./hooks";
 
 const Login = () => {
   const { methods, isError, isPending, resetError, handleSubmit } =

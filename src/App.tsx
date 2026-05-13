@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import appRoutes from "./routes";
 import { Box, CircularProgress } from "@mui/material";
-import { useAuthBootstrap } from "./features/auth";
+import { useAuthBootstrap } from "@auth-hooks/useAuthBootstrap";
 
 const App = () => {
   const { isBootstrapping } = useAuthBootstrap();

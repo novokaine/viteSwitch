@@ -2,7 +2,7 @@ import useAuthStore from "../store/useAuthStore";
 import type {
   AuthSession,
   RefreshTokenResponse
-} from "../features/auth/domain/auth.types";
+} from "@app-types/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000/api";
 const JSON_HEADERS = {

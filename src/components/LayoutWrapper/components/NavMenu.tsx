@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Drawer, ListItem, ListItemText } from "@mui/material";
 import { navItems } from "../../../routes";
 import { StyledNavLink, StyledUserMenuList } from "./css/styles";
-import { useAuthSession } from "../../../features/auth";
+import { useAuthSession } from "@auth-hooks/useAuthSession";
 
 const drawerWidth = 240;
 

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { createQueryOptions } from "../../../lib/query";
-import useAuthStore from "../../../store/useAuthStore";
-import { authApi } from "../infrastructure/authApi";
+import useAuthStore from "@store/useAuthStore";
+import { createQueryOptions } from "@lib/query";
+import { authApi } from "@api/auth";
 
 export const AUTH_SESSION_QUERY_KEY = ["auth", "session"] as const;
 

@@ -16,7 +16,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@api/*": ["./src/api/*"]
+      "@api/*": ["./src/api/*"],
+      "@store/*": ["./src/store/*"],
+      "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@app-types/*": ["./src/types/*"],
+      "@auth-hooks/*": ["./src/pages/Public/Login/hooks/*"]
     },
 
     /* Linting */

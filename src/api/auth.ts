@@ -1,9 +1,9 @@
-import { http } from "../../../lib/http";
+import { http } from "@lib/http";
 import type {
   AuthSession,
   LoginCredentials,
   RefreshTokenResponse
-} from "../domain/auth.types";
+} from "@app-types/auth";
 
 export const authApi = {
   login: (credentials: LoginCredentials) =>

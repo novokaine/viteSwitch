@@ -4,7 +4,7 @@ import ROUTES_PATHS from "./paths";
 import type { ROUTE_TYPE } from "./const";
 import { useRedirectController } from "./hooks";
 import Loader from "../components/Loader";
-import { useAuthSession } from "../features/auth";
+import { useAuthSession } from "@auth-hooks/useAuthSession";
 
 const { LOGIN, DASHBOARD, ROOT } = ROUTES_PATHS;
 
