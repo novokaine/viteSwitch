@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Running type-check before push..."
+npm.cmd run type-check
+npm.cmd run lint

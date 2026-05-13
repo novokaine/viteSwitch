@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createQueryOptions } from "../../../lib/query";
-import { profileApi } from "../../../api/profileApi";
+import { profileApi } from "@api/profileApi";
 
 export const USER_PROFILE_QUERY_KEY = ["profile", "current-user"] as const;
 

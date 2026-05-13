@@ -10,10 +10,10 @@ const getErrorMessage = (error: unknown) => {
   return "Something went wrong while loading data.";
 };
 
-const ErrorWrapper: FC<IErrorWrapper> = ({ error }) => {
+const ErrorWrapper: FC<IErrorWrapper> = ({ error }) => (
   <Card>
     <CardContent>{getErrorMessage(error)}</CardContent>
-  </Card>;
-};
+  </Card>
+);
 
 export default ErrorWrapper;
